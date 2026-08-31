@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>For Saba ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Sacramento&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-black: #020005;
+            --liquid-glass: rgba(255, 255, 255, 0.05);
+            --liquid-border: rgba(255, 117, 140, 0.3);
+            --rose-glow: #ff2a6d;
+            --pink-glow: #ff758c;
+            --purple-glow: #bd00ff;
+            --text-main: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: env(safe-area-inset-top, 50px);
+            padding-bottom: env(safe-area-inset-bottom, 25px);
+            position: relative;
+        }
+
+        /* Background Fluid Morphing Orbs */
+        .liquid-orb-1, .liquid-orb-2, .liquid-orb-3 {
+            position: fixed;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.7;
+            animation: morphFluid 10s infinite alternate ease-in-out;
+        }
+
+        .liquid-orb-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #ff2a6d, #bd00ff);
+            top: -8%;
+            left: -12%;
+        }
+
+        .liquid-orb-2 {
+            width: 340px;
+            height: 340px;
+            background: linear-gradient(135deg, #ff758c, #ff2a6d);
+            bottom: -10%;
+            right: -12%;
+            animation-delay: -3s;
+        }
+
+        .liquid-orb-3 {
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 117, 140, 0.35);
+            top: 40%;
+            left: 20%;
+            animation-delay: -6s;
+        }
+
+        @keyframes morphFluid {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { border-radius: 60% 40% 30% 70% / 50% 30% 70% 40%; transform: translate(30px, 40px) rotate(90deg) scale(1.1); }
+            100% { border-radius: 30% 70% 50% 50% / 30% 60% 40% 70%; transform: translate(-20px, 20px) rotate(180deg) scale(0.95); }
+        }
+
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            width: 100%;
+            max-width: 430px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 15px;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.92) translateY(15px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Screen 1: Start Up */
+        .hero-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5.8rem;
+            color: #fff;
+            text-shadow: 0 0 20px var(--rose-glow), 0 0 40px var(--rose-glow), 0 0 60px var(--purple-glow);
+            margin-bottom: 5px;
+            animation: liquidPulse 3s infinite ease-in-out;
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--pink-glow);
+            text-shadow: 0 0 10px var(--pink-glow);
+        }
+
+        @keyframes liquidPulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.3); }
+        }
+
+        .page-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 15px var(--rose-glow);
+            letter-spacing: 1px;
+        }
+
+        /* 2 Per Row Grid Layout */
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-height: 68vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        /* Liquid Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--liquid-border);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 18px;
+            padding: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover, .glass-card:active {
+            transform: translateY(-3px);
+            border-color: var(--pink-glow);
+            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        /* Media Frame */
+        .image-frame {
+            width: 100%;
+            height: 160px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px dashed var(--liquid-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-frame img, .image-frame video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        .glass-card-caption {
+            font-size: 0.75rem;
+            color: #fce4ec;
+            margin-top: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Quotes Container */
+        .quotes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            max-height: 68vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .quote-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--rose-glow);
+            border-top: 1px solid var(--liquid-border);
+            border-right: 1px solid var(--liquid-border);
+            border-bottom: 1px solid var(--liquid-border);
+            backdrop-filter: blur(20px);
+            padding: 16px 18px;
+            border-radius: 0 18px 18px 0;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .quote-card:hover, .quote-card:active {
+            background: rgba(255, 255, 255, 0.06);
+            border-left-color: var(--pink-glow);
+            transform: translateX(4px);
+        }
+
+        .quote-card p {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #ffffff;
+            font-style: italic;
+        }
+
+        /* Final Declaration Screen */
+        .final-screen {
+            background: radial-gradient(circle at center, rgba(255, 42, 109, 0.45) 0%, rgba(189, 0, 255, 0.25) 50%, rgba(2, 0, 5, 1) 90%);
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 1px solid rgba(255, 117, 140, 0.5);
+            box-shadow: 0 0 50px rgba(255, 42, 109, 0.4);
+        }
+
+        .final-text {
+            font-family: 'Satisfy', cursive;
+            font-size: 1.8rem;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px #ff2a6d,
+                0 0 25px #ff2a6d,
+                0 0 50px #ff2a6d,
+                0 0 80px #bd00ff;
+            line-height: 1.2;
+            word-spacing: 2px;
+        }
+
+        /* Navigation Dock */
+        .nav-dock {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 430px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            padding: 0 15px;
+        }
+
+        .action-btn {
+            position: relative;
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.5), rgba(189, 0, 255, 0.4));
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(255, 42, 109, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255, 117, 140, 0.6), rgba(255, 42, 109, 0.5));
+        }
+
+        .action-btn:active {
+            transform: scale(0.96);
+            background: linear-gradient(135deg, rgba(189, 0, 255, 0.8), rgba(255, 42, 109, 0.8));
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: liquidRipple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes liquidRipple {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--rose-glow), var(--purple-glow));
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="liquid-orb-1"></div>
+    <div class="liquid-orb-2"></div>
+    <div class="liquid-orb-3"></div>
+
+    <canvas id="interactive-canvas"></canvas>
+
+    <div class="app-container">
+        
+        <div class="page active" id="page-1">
+            <h1 class="hero-title">Saba❤️</h1>
+            <p class="hero-subtitle">My Entire Universe🌍❤️</p>
+        </div>
+
+        <div class="page" id="page-2">
+            <h2 class="page-title">Our Best Moments Together✨❤️</h2>
+            <div class="grid-2-col">
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <video src="8.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <p class="glass-card-caption">Special Moment❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="7.jpeg" alt="Photo 7">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="6.jpeg" alt="Photo 6">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="5.jpeg" alt="Photo 5">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="4.jpeg" alt="Photo 4">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="2.jpeg" alt="Photo 2">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="3.jpeg" alt="Photo 3">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="1.jpeg" alt="Photo 1">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-3">
+            <h2 class="page-title">Saved Messages</h2>
+            <div class="grid-2-col">
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="08.jpeg" alt="Chat 08">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="07.jpeg" alt="Chat 07">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="06.jpeg" alt="Chat 06">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="05.jpeg" alt="Chat 05">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="04.jpeg" alt="Chat 04">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="02.jpeg" alt="Chat 02">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="03.jpeg" alt="Chat 03">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+                <div class="glass-card">
+                    <div class="image-frame">
+                        <img src="01.jpeg" alt="Chat 01">
+                    </div>
+                    <p class="glass-card-caption">❤️</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-4">
+            <h2 class="page-title">Written For You Janan❤️</h2>
+            <div class="quotes-container">
+                <div class="quote-card">
+                    <p>"Janan 💗 apny mjhy sab Dia Jo ma chahta Tha.apny mjhy change Kiya Jo ma chahta Tha. Apny mjhy wo bnaya Jo ma banna chahta Tha.sab sy barh kr apny mjhy sakoon Dia Jo ma chahta Tha. Ap sakoon bangai mera♥️. I was alone & fighting with my own life or Thoughts. I was going for a suicide & you stopped me by yours word's "kisi ka na sahi Kam AZ Kam unka to sochain Jo apsy piyr krty hain" and you were the one who truly loves me. Ap tb meri sath tahri rahi jab Mery pass koi dost b nhi bacha Tha. Sab chaly gaiy thy ma akela Tha and you were the one who stands beside me ♥️🌎. Ma nhi janta k ma apsy itni mohabbat q krta hun par shyd yhi sab waja hain apsy be-inteha mohabbat ki✨♥️.I love you so much babe and Thank you so much for everything you did for me 🌎💖"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"Every single word you speak brings a smile to my face that lasts all day.✨♥️"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"Ab haarny sy b darta hun k kahen apko apki khushiyan na dy saka to. Isi Liya ab haar nhi manta or na Maan paunga q k ap support he itna krti hain k hara he nhj jta. Moving to 2026 with you is just unbelievable. Too Many happy to have you Janan♥️✨.RN I'm literally crying but these yeh khushi k anso babe. I can't explain how much I love you babe ♥️🥹.Thank you so much meri zindagi 💞 for everything you did for me ♥️🌎✨"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"✨Aj sy 21month phly hum mily thy ak dosry ko or Allah ko gawah bna kr kehta hun k yeh 21month itni khushi may guzray k pta he nhi chala . Aj abhi ma apsy call pr bt krta hun or ma apko yeh nhi keh paa rha k ma ro rha hun khushi sy k ma apsy kitni mohabbat krta hn . You’re the best person Janan❤️✨🫀🌍</p>
+                </div>
+                <div class="quote-card">
+                    <p>"Raat bhar socha... Kya pasand hai apmay? Or jitna socha, utna samjh aya... nakal, aadatein, harkatein sab baad may ha sabsy pehly apka hona hi acha lagta hai❤️✨"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"Jab jab ma tens may raha tb tb many Saba ko tens may dekha apny liya. Esa koi time nhi jab ma tens may hun or wo sakoon may, Never. Ma haar maan nay lagta Tha or yeh larki( Meri larki ❤️✨) ny hamesha mjhy himmat di, mjhy khud par yaqeen dilwaya k ma kr skta hun. I'm still in my struggling day's but ma janta hun k Meri Saba Mery sath hain to Ma haarunga nhi. Ma janta hun k she'll never leave me alone. Yeah I'm a little bit annoying person but Idkh saba ksy itna sab bardasht krti. Ma larta  hun sometimes out of control hojata hun kuch b bol deta hun Bina sochy and she always laughing and happy with me idkh but yeah she's Great 🌍✨💯❤️. Mera na roz dil krta hai k ma likhun Saba k baraay may patani Esa q hai par yeh acha hai. Saba ka sath unka piyar most imp unki support in my trading career, She knows this business is worlds most dangerous business but still she supports me, she care about me ❤️. Now one last line and my Fav One "SHE WAS MY DREAM GIRL, SHE IS MY DREAM GIRL & SHE'LL REMAIN TILL THE END OF MY LIFE 💖✨"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-5">
+            <div class="final-screen">
+                <h1 class="final-text">Saba Jaan❤️ I wanna say you something : "Thank you so much for loving me, more than I expected, more than I deserved. Thank you for coming into my life ❤️🌎✨</h1>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-dock">
+        <button class="action-btn" id="mainActionBtn" onclick="nextPage(event)">
+            <span id="btnText">Open My Heart</span> <i class="fa-solid fa-heart" id="btnIcon"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+
+        const pageThemes = {
+            1: { text: 'Open My Heart', icon: 'fa-solid fa-heart', gradient: 'linear-gradient(135deg, rgba(255, 42, 109, 0.5), rgba(189, 0, 255, 0.4))' },
+            2: { text: 'View Saved Messages', icon: 'fa-solid fa-comment-dots', gradient: 'linear-gradient(135deg, rgba(255, 117, 140, 0.5), rgba(255, 42, 109, 0.5))' },
+            3: { text: 'Read What I Wrote', icon: 'fa-solid fa-pen-fancy', gradient: 'linear-gradient(135deg, rgba(189, 0, 255, 0.5), rgba(255, 117, 140, 0.4))' },
+            4: { text: 'One Final Message', icon: 'fa-solid fa-sparkles', gradient: 'linear-gradient(135deg, rgba(255, 42, 109, 0.6), rgba(255, 215, 0, 0.3))' },
+            5: { text: 'Start From Beginning', icon: 'fa-solid fa-rotate-right', gradient: 'linear-gradient(135deg, rgba(255, 42, 109, 0.5), rgba(189, 0, 255, 0.4))' }
+        };
+
+        function nextPage(e) {
+            const btn = e.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+            const radius = diameter / 2;
+            const rect = btn.getBoundingClientRect();
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            circle.classList.add('ripple');
+
+            const ripple = btn.getElementsByClassName('ripple')[0];
+            if (ripple) ripple.remove();
+            btn.appendChild(circle);
+
+            document.getElementById(`page-${currentPage}`).classList.remove('active');
+            
+            if (currentPage < totalPages) {
+                currentPage++;
+            } else {
+                currentPage = 1;
+            }
+
+            const currentTheme = pageThemes[currentPage];
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+            document.getElementById('btnText').innerText = currentTheme.text;
+            document.getElementById('btnIcon').className = currentTheme.icon;
+            btn.style.background = currentTheme.gradient;
+        }
+
+        const canvas = document.getElementById('interactive-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 117, 140, ${this.opacity})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ff2a6d';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
